@@ -7,6 +7,10 @@ class BasicAgent
         this.Material = new THREE.MeshNormalMaterial();
         this.Mesh = new THREE.Mesh(this.Geometry, this.Material);
 
+        this.Mesh.position.x = Math.random() * 10 - 5;
+				this.Mesh.position.y = Math.random() * 10 - 5;
+				this.Mesh.position.z = Math.random() * 10 - 5;
+
         scene.add(this.Mesh);
 
         //id
@@ -23,9 +27,9 @@ class MovingAgent extends BasicAgent
         super(scene);
 
         //MaxSpeed
-        this.MaxSpeed = 30;
+        this.MaxSpeed = 5;
         //MaxForce
-        this.MaxForce = 4.0;
+        this.MaxForce = 10.0;
         //Mass
         this.Mass = 1.0;
         //Direction
@@ -33,7 +37,8 @@ class MovingAgent extends BasicAgent
         //Heading
         this.Heading = new THREE.Vector3();
 
-        this.Steering = new SteeringBehaviors(this, new THREE.Vector3(0, -10, 0));
+        //this.Acceleration = new THREE.Vector3();
+        this.Steering = new SteeringBehaviors(this, new THREE.Vector3(-2, 2, -10));
     }
 
     run()

@@ -4,18 +4,20 @@ class SteeringBehaviors
     constructor(agent, target)
     {
         this.Agent = agent;
-        this.target = target;
+        this.target = target.clone();
         this.SteeringForce = new THREE.Vector3();
-        this.Acceleration;
+        this.Acceleration = new THREE.Vector3();
+        this.clock = new THREE.Clock();
+        this.clock.start();
 
         this.Behavior = 10;
-        console.log(agent);
     }
 
     seek(target)
     {
         let desire = new THREE.Vector3();
         desire = target.sub(this.Agent.position);
+
         let desiredVelocity = desire.multiplyScalar(this.Agent.MaxSpeed);
 
         desiredVelocity.normalize();
@@ -43,14 +45,15 @@ class SteeringBehaviors
         //Seeking Behavior
         else if (this.Behavior === 10)
         {
-            return this.SteeringForce = this.seek(this.target);
+            return this.SteeringForce = this.seek(this.target.clone());
         }
         //Fleeing Behavior
         else if (this.Behavior === 100)
         {
-            return this.SteeringForce = this.flee(this.target);
+            return this.SteeringForce = this.flee(this.target.clone());
         }
     }
+
 
     updateForces()
     {
@@ -61,14 +64,16 @@ class SteeringBehaviors
 
         //gets the Acceleration of the agent and scales it to the Agent's Mass
         this.Acceleration = this.SteeringForce.divideScalar(this.Agent.Mass);
-
-        console.log(this.Agent.Direction);
-
-        this.Agent.Direction.min(this.Agent.MaxSpeed);
+        //this.Agent.Direction.min(this.Agent.MaxSpeed);
+        let timer = this.clock.getDelta();
 
         //moves the agent
-        this.Acceleration.multiplyScalar(THREE.Clock.getDelta);
+        this.Acceleration.multiplyScalar(timer);
         this.Agent.Direction.add(this.Acceleration);
+
+        this.truncate();
+
+        this.Agent.position.add(this.Agent.Direction);
 
         //checks if the magnitude of the Agent's Direction is greater than small number
         if (this.Agent.Direction.lengthSq() > 0.00001)
@@ -79,6 +84,15 @@ class SteeringBehaviors
 
         this.SteeringForce = new THREE.Vector3(0, 0, 0);
 
+    }
+
+    truncate()
+    {
+      if (this.Agent.Direction.length() > this.MaxSpeed)
+      {
+        this.Agent.Direction.normalize();
+        this.Agent.Direction.multiplyScalar(this.MaxSpeed);
+      }
     }
 
     applyForce(force)
@@ -100,9 +114,7 @@ class SteeringBehaviors
           return false;
         }
 
-
         let magToAdd = forceToAdd.length();
-
 
         if (magToAdd < magRemaining)
         {
