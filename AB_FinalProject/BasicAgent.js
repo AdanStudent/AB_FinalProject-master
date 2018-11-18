@@ -4,11 +4,14 @@ class BasicAgent
     {
         //visual element
         this.Geometry = new THREE.ConeGeometry(1, 5, 8);
-        this.Material = new THREE.MeshNormalMaterial();
-        this.Mesh = new THREE.Mesh(this.Geometry, this.Material);
 
-        this.Mesh.position.x = Math.random() * 10 - 5;
-				this.Mesh.position.y = Math.random() * 10 - 5;
+        this.Material = new THREE.MeshBasicMaterial();
+        let color = new THREE.Color(Math.random(), 0, Math.random());
+        this.Material.color = color;
+
+        this.Mesh = new THREE.Mesh(this.Geometry, this.Material);
+        this.Mesh.position.x = Math.random() * 20 - 5;
+				this.Mesh.position.y = Math.random() * 20 - 5;
 				this.Mesh.position.z = Math.random() * 10 - 5;
 
         scene.add(this.Mesh);
@@ -38,7 +41,7 @@ class MovingAgent extends BasicAgent
         this.Heading = new THREE.Vector3();
 
         //this.Acceleration = new THREE.Vector3();
-        this.Steering = new SteeringBehaviors(this, new THREE.Vector3(-2, 2, -10));
+        this.Steering = new SteeringBehaviors(this, new THREE.Vector3(0, -20, -50));
     }
 
     run()

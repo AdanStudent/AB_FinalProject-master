@@ -82,6 +82,8 @@ class SteeringBehaviors
             this.Agent.Heading = heading.normalize();
         }
 
+        this.Agent.Mesh.lookAt(this.Agent.Heading);
+        
         this.SteeringForce = new THREE.Vector3(0, 0, 0);
 
     }
