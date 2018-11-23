@@ -1,7 +1,8 @@
 ﻿var camera, scene, renderer;
 var agents = [];
 var obj;
-let numOfAgents = 3000;
+let numOfAgents = 2100;
+let AgentsBehavior = 10;
 
 init();
 animate();
@@ -33,10 +34,17 @@ function init() {
 
 }
 
-function updateAgents(){
+function updateAgentsTarget(){
   for (var i = 0; i < agents.length; i++)
   {
     agents[i].updateTarget(obj.position);
+  }
+}
+
+function updateAgentsBehavior(){
+  for (var i = 0; i < agents.length; i++)
+  {
+    agents[i].updateBehavior(AgentsBehavior);
   }
 }
 
@@ -48,24 +56,38 @@ function initGUI(){
 
   let param =
   {
+    'Behavior': 0,
     'X Position': 0,
     'Y Position': 0,
-    'Z Position': 0
+    'Z Position': 0,
   }
 
-  gui.add(param, 'X Position', -100, 100).onChange(function(val){
+  gui.add(param, 'Behavior', {'Seeking': 0, 'Fleeing': 1}).onChange(function(val){
+    switch (val) {
+      case '0':
+        AgentsBehavior = 10;
+        break;
+
+        case '1':
+          AgentsBehavior = 100;
+          break;
+    }
+    updateAgentsBehavior();
+  })
+
+  gui.add(param, 'X Position', -300, 300).onChange(function(val){
     obj.position.x = val;
-    updateAgents();
+    updateAgentsTarget();
   });
 
-  gui.add(param, 'Y Position', -100, 100).onChange(function(val){
+  gui.add(param, 'Y Position', -300, 300).onChange(function(val){
     obj.position.y = val;
-    updateAgents();
+    updateAgentsTarget();
   });
 
-  gui.add(param, 'Z Position', -100, 100).onChange(function(val){
+  gui.add(param, 'Z Position', -300, 300).onChange(function(val){
     obj.position.z = val;
-    updateAgents();
+    updateAgentsTarget();
   });
 
 }

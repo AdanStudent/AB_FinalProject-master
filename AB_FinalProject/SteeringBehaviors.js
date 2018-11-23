@@ -27,11 +27,13 @@ class SteeringBehaviors
 
     flee(target)
     {
-        let desiredVelocity = (this.Agent.position - target) * this.Agent.MaxSpeed;
+      let desire = new THREE.Vector3();
+      desire = this.Agent.position.sub(target);
+      let desiredVelocity = desire.multiplyScalar(this.Agent.MaxSpeed);
 
-        desiredVelocity.normalize();
+      desiredVelocity.normalize();
 
-        return desiredVelocity - this.Agent.Direction;
+      return desiredVelocity.sub(this.Agent.Direction);
     }
 
     updateBehaviors()
@@ -83,7 +85,7 @@ class SteeringBehaviors
         }
 
         this.Agent.Mesh.lookAt(this.Agent.Heading);
-        
+
         this.SteeringForce = new THREE.Vector3(0, 0, 0);
 
     }
@@ -111,6 +113,7 @@ class SteeringBehaviors
 
         let magRemaining = this.Agent.MaxForce - magSoFar;
 
+        //console.log(this.SteeringForce.length());
         if (magRemaining <= 0)
         {
           return false;

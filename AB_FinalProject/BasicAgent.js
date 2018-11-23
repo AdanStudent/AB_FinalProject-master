@@ -10,9 +10,9 @@ class BasicAgent
         this.Material.color = color;
 
         this.Mesh = new THREE.Mesh(this.Geometry, this.Material);
-        this.Mesh.position.x = Math.random() * -20;
-				this.Mesh.position.y = Math.random() * -20;
-				this.Mesh.position.z = Math.random() * -20;
+        this.Mesh.position.x = Math.random() * -200;
+				this.Mesh.position.y = Math.random() * -200;
+				this.Mesh.position.z = Math.random() * -200;
 
         scene.add(this.Mesh);
 
@@ -51,6 +51,11 @@ class MovingAgent extends BasicAgent
 
     updateTarget(target){
       this.Steering.target = target.clone();
+    }
+
+    updateBehavior(val)
+    {
+      this.Steering.Behavior = val;
     }
 
     get position()
