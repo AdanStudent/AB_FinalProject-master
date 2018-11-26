@@ -1,7 +1,7 @@
 ﻿var camera, scene, renderer;
 var agents = [];
 var obj;
-let numOfAgents = 2100;
+let numOfAgents = 1;
 let AgentsBehavior = 10;
 
 init();
@@ -14,7 +14,7 @@ function init() {
     scene = new THREE.Scene();
 
     //create donut
-    var geometry = new THREE.TorusBufferGeometry( 50, 20, 20, 20 );
+    var geometry = new THREE.TorusBufferGeometry( 30, 10, 10, 10 );
     var material = new THREE.MeshBasicMaterial( { color: 0xcc9900 } );
     obj = new THREE.Mesh( geometry, material );
     scene.add( obj );
@@ -103,8 +103,8 @@ function animate() {
     }
 
     var timer = Date.now() * 0.0001;
-				camera.position.x = Math.cos( timer ) * 300;
-				camera.position.z = Math.sin( timer ) * 300;
+				camera.position.x = Math.cos( timer ) * 450;
+				camera.position.z = Math.sin( timer ) * 450;
 				camera.lookAt( scene.position );
 
 

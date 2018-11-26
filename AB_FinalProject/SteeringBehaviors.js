@@ -27,8 +27,10 @@ class SteeringBehaviors
 
     flee(target)
     {
-      let desire = new THREE.Vector3();
-      desire = this.Agent.position.sub(target);
+        let desire = new THREE.Vector3();
+        desire = this.Agent.position;
+        desire = desire.sub(target);
+        console.log(desire);
       let desiredVelocity = desire.multiplyScalar(this.Agent.MaxSpeed);
 
       desiredVelocity.normalize();
