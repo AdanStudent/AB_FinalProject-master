@@ -16,7 +16,10 @@ class SteeringBehaviors
         this.points = [];
         this.fillPoints();
 
-        this.currentNode = this.points.length-1;
+        this.currentNode = this.points.length - 1;
+        this.pathDirection = -1;
+
+        this.otherAgents = [];
     }
 
     seek(target)
@@ -75,9 +78,9 @@ class SteeringBehaviors
         this.points.push(vec);
       }
 
-      // for (let v of this.points) {
-      //   console.log(v);
-      // }
+       //for (let v of this.points) {
+       //  console.log(v);
+       //}
     }
 
     pathFollow()
@@ -86,19 +89,39 @@ class SteeringBehaviors
 
       if (this.points != null)
       {
+
         tar = this.points[this.currentNode].clone();
 
         if (this.Agent.position.distanceTo(tar) <= 15)
         {
-          this.currentNode--;
-          if (this.currentNode <= -1)
+            //this.currentNode--;
+            this.currentNode += this.pathDirection;
+
+            if (this.currentNode <= -1 || this.currentNode >= this.points.length)
           {
-            this.currentNode = 0;
+                //this.currentNode = 0;
+                this.pathDirection *= -1;
+            this.currentNode += this.pathDirection;
+
           }
         }
       }
 
       return this.seek(tar);
+    }
+
+    separation()
+    {
+        let desiredSeparation = 3.5 * 2;
+
+        let sum = new THREE.Vector3();
+
+        let count = 0;
+
+        for (let a of this.otherAgents)
+        {
+
+        }
     }
 
     updateBehaviors()
