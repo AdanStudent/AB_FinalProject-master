@@ -1,8 +1,8 @@
 ﻿var camera, scene, renderer;
 var agents = [];
 var obj;
-let numOfAgents = 1;
-let AgentsBehavior = 10;
+let numOfAgents = 2000;
+let AgentsBehavior = 1;
 
 init();
 animate();
@@ -62,15 +62,20 @@ function initGUI(){
     'Z Position': 0,
   }
 
-  gui.add(param, 'Behavior', {'Seeking': 0, 'Fleeing': 1}).onChange(function(val){
+  gui.add(param, 'Behavior', {'None': 0, 'Seeking': 1, 'Fleeing': 2, 'Path Follow': 3}).onChange(function(val){
     switch (val) {
       case '0':
-        AgentsBehavior = 10;
+        AgentsBehavior = 1;
         break;
-
         case '1':
+          AgentsBehavior = 10;
+          break;
+        case '2':
           AgentsBehavior = 100;
           break;
+          case '3':
+            AgentsBehavior = 1000;
+            break;
     }
     updateAgentsBehavior();
   })
