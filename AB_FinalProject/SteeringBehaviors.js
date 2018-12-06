@@ -112,16 +112,41 @@ class SteeringBehaviors
 
     separation()
     {
-        let desiredSeparation = 3.5 * 2;
+        let desiredSeparation = 7 * 2;
 
         let sum = new THREE.Vector3();
 
         let count = 0;
 
-        for (let a of this.otherAgents)
+        for (let i = 0; i < this.otherAgents[0].length; i++)
         {
+          //console.log(this.otherAgents[0].length);
+          let dist = this.Agent.position.distanceTo(this.otherAgents[0][i].position.clone());
 
+          if((dist > 0) && (dist < desiredSeparation))
+          {
+            let diff = new THREE.Vector3();
+            diff = this.Agent.position.clone().sub(
+              this.otherAgents[0][i].position.clone());
+
+            diff.normalize();
+            diff.divideScalar(dist);
+
+            sum.add(diff);
+            count++;
+          }
         }
+
+
+        let force = new THREE.Vector3();
+        if (count > 0)
+        {
+          sum.divideScalar(count);
+          sum.normalize();
+          sum.multiplyScalar(this.Agent.MaxSpeed);
+          force.add(sum.sub(this.Agent.Direction.clone()));
+        }
+        return force;
     }
 
     updateBehaviors()

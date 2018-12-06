@@ -30,7 +30,7 @@ class MovingAgent extends BasicAgent
         super(scene);
 
         //MaxSpeed
-        this.MaxSpeed = 5;
+        this.MaxSpeed = 25;
         //MaxForce
         this.MaxForce = 10.0;
         //Mass
@@ -66,6 +66,11 @@ class MovingAgent extends BasicAgent
     set position(value)
     {
       this.Mesh.position = value;
+    }
+
+    addAgentReference(other)
+    {
+      this.Steering.otherAgents.push(other);
     }
 
 }

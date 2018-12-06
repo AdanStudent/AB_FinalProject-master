@@ -1,7 +1,7 @@
 ﻿var camera, scene, renderer;
 var agents = [];
 var obj;
-let numOfAgents = 2000;
+let numOfAgents = 3000;
 let AgentsBehavior = 1;
 
 init();
@@ -22,7 +22,13 @@ function init() {
 
     for (var i = 0; i < numOfAgents; i++)
     {
-      agents.push(new MovingAgent(scene, obj.position));
+      let a = new MovingAgent(scene, obj.position);
+      agents.push(a);
+    }
+
+    for (let a of agents)
+    {
+      a.addAgentReference(agents);
     }
 
 
@@ -50,7 +56,8 @@ function updateAgentsBehavior(){
 
 var gui;
 
-function initGUI(){
+function initGUI()
+{
 
   gui = new dat.GUI();
 
