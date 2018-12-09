@@ -1,4 +1,4 @@
-﻿var camera, scene, renderer;
+﻿var camera, scene, renderer, hemiLight;
 var agents = [];
 var obj;
 let numOfAgents = 3000;
@@ -15,9 +15,18 @@ function init() {
 
     //create donut
     var geometry = new THREE.TorusBufferGeometry( 30, 10, 10, 10 );
-    var material = new THREE.MeshBasicMaterial( { color: 0xcc9900 } );
+    var material = new THREE.MeshToonMaterial( { color: 0xcc9900 } );
     obj = new THREE.Mesh( geometry, material );
     scene.add( obj );
+
+    var directionalLight = new THREE.DirectionalLight( 0xffffff, 0.8 );
+    directionalLight.position.y = 100;
+    directionalLight.castShadow = true;
+    scene.add( directionalLight );
+
+    var light = new THREE.PointLight( 0xB9051A, 1, 50 );
+    light.position.set( 0, 0, 0 );
+    scene.add( light );
 
 
     for (var i = 0; i < numOfAgents; i++)
@@ -31,6 +40,11 @@ function init() {
       a.addAgentReference(agents);
     }
 
+    hemiLight = new THREE.HemisphereLight( 0xF79D4D, 0xF79D4D, 0.6 );
+		hemiLight.color.setHSL( 0.6, 1, 0.6 );
+		hemiLight.groundColor.setHSL( 0.095, 1, 0.75 );
+		hemiLight.position.set( 0, 100, 0 );
+		scene.add( hemiLight );
 
     renderer = new THREE.WebGLRenderer({ antialias: true });
     renderer.setSize(window.innerWidth, window.innerHeight);

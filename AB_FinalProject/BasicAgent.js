@@ -5,7 +5,7 @@ class BasicAgent
         //visual element
         this.Geometry = new THREE.ConeGeometry(1, 5, 8);
 
-        this.Material = new THREE.MeshBasicMaterial();
+        this.Material = new THREE.MeshLambertMaterial();
         let color = new THREE.Color(Math.random(), 0, Math.random());
         this.Material.color = color;
 
@@ -13,6 +13,7 @@ class BasicAgent
         this.Mesh.position.x = Math.random() * -200;
 				this.Mesh.position.y = Math.random() * -200;
 				this.Mesh.position.z = Math.random() * -200;
+        this.Mesh.castShadow = true;
 
         scene.add(this.Mesh);
 
